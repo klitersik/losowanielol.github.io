@@ -1,0 +1,180 @@
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Losowanie Drużyn</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            color: #333;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        input {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 22px);
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .results {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+        }
+
+        .team {
+            background-color: #ffffffcc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 45%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Losowanie Drużyn</h1>
+    <div id="player-inputs" style="width: 80%;">
+        <input type="text" id="player1" placeholder="Gracz 1">
+        <input type="text" id="player2" placeholder="Gracz 2">
+        <input type="text" id="player3" placeholder="Gracz 3">
+        <input type="text" id="player4" placeholder="Gracz 4">
+        <input type="text" id="player5" placeholder="Gracz 5">
+        <input type="text" id="player6" placeholder="Gracz 6">
+        <input type="text" id="player7" placeholder="Gracz 7">
+        <input type="text" id="player8" placeholder="Gracz 8">
+        <input type="text" id="player9" placeholder="Gracz 9">
+        <input type="text" id="player10" placeholder="Gracz 10">
+    </div>
+    <button onclick="drawTeams()">Losuj Drużyny</button>
+
+    <div class="results">
+        <div id="team1" class="team">
+            <h2>Drużyna 1</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rola</th>
+                        <th>Gracz</th>
+                    </tr>
+                </thead>
+                <tbody id="team1-body">
+                </tbody>
+            </table>
+        </div>
+        <div id="team2" class="team">
+            <h2>Drużyna 2</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rola</th>
+                        <th>Gracz</th>
+                    </tr>
+                </thead>
+                <tbody id="team2-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function drawTeams() {
+            // Pobieranie nazw graczy
+            let players = [];
+            for (let i = 1; i <= 10; i++) {
+                let player = document.getElementById(`player${i}`).value;
+                if (player) {
+                    players.push(player);
+                }
+            }
+
+            // Sprawdzanie, czy jest dokładnie 10 graczy
+            if (players.length !== 10) {
+                alert("Musisz podać dokładnie 10 graczy.");
+                return;
+            }
+
+            // Tasowanie graczy
+            players.sort(() => Math.random() - 0.5);
+
+            // Przypisywanie ról
+            let roles = ["TOP", "JUNGLE", "MID", "ADC", "SUPP"];
+            let team1 = [];
+            let team2 = [];
+
+            for (let i = 0; i < 5; i++) {
+                team1.push({role: roles[i], player: players[i]});
+                team2.push({role: roles[i], player: players[i + 5]});
+            }
+
+            // Czyszczenie tabel
+            document.getElementById("team1-body").innerHTML = "";
+            document.getElementById("team2-body").innerHTML = "";
+
+            // Wstawianie danych do tabeli drużyny 1
+            team1.forEach(member => {
+                let row = `<tr><td>${member.role}</td><td>${member.player}</td></tr>`;
+                document.getElementById("team1-body").innerHTML += row;
+            });
+
+            // Wstawianie danych do tabeli drużyny 2
+            team2.forEach(member => {
+                let row = `<tr><td>${member.role}</td><td>${member.player}</td></tr>`;
+                document.getElementById("team2-body").innerHTML += row;
+            });
+        }
+    </script>
+</body>
+</html>
